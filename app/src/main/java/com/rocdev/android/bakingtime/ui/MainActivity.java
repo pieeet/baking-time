@@ -2,6 +2,7 @@ package com.rocdev.android.bakingtime.ui;
 
 import android.app.LoaderManager;
 import android.content.AsyncTaskLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -80,6 +81,8 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onRecipeClicked(Recipe recipe) {
-        //TODO create intent to recipe activity
+        Intent intent = new Intent(this, StepsActivity.class);
+        intent.putExtra(getString(R.string.key_recipe), recipe);
+        startActivity(intent);
     }
 }
