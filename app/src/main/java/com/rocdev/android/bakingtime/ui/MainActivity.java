@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 import com.rocdev.android.bakingtime.R;
 import com.rocdev.android.bakingtime.models.Recipe;
@@ -19,10 +18,10 @@ import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity implements
-        LoaderManager.LoaderCallbacks<List<Recipe>>, RecipeNameAdapter.OnRecipeClickedCallback {
+        LoaderManager.LoaderCallbacks<List<Recipe>>, RecipesAdapter.OnRecipeClickedCallback {
 
     private List<Recipe> mRecipes;
-    private RecipeNameAdapter mAdapter;
+    private RecipesAdapter mAdapter;
     private static final int LOADER_ID = 1234;
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -35,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         getLoaderManager().initLoader(LOADER_ID, null, this);
-        mAdapter = new RecipeNameAdapter(this, this, mRecipes);
+        mAdapter = new RecipesAdapter(this, this, mRecipes);
         recyclerView.setAdapter(mAdapter);
 
     }

@@ -16,7 +16,7 @@ import java.util.List;
  * Created by piet on 15-10-17.
  */
 
-public class StepsOverviewAdapter extends RecyclerView.Adapter<StepsOverviewAdapter.ViewHolder> {
+public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> {
 
 
     private Context mContext;
@@ -24,8 +24,8 @@ public class StepsOverviewAdapter extends RecyclerView.Adapter<StepsOverviewAdap
     private List<Step> mSteps;
 
 
-    public StepsOverviewAdapter(Context context, OnItemClickedListener callback,
-                                List<Step> steps) {
+    public StepsAdapter(Context context, OnItemClickedListener callback,
+                        List<Step> steps) {
         this.mContext = context;
         this.mCallback = callback;
         this.mSteps = steps;
@@ -49,7 +49,7 @@ public class StepsOverviewAdapter extends RecyclerView.Adapter<StepsOverviewAdap
                 }
             });
         } else {
-            final Step step = mSteps.get(position);
+            final Step step = mSteps.get(position - 1);
             holder.textView.setText(step.getShortDescription());
             holder.container.setOnClickListener(new View.OnClickListener() {
                 @Override

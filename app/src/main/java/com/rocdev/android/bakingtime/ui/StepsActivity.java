@@ -10,7 +10,7 @@ import com.rocdev.android.bakingtime.models.Recipe;
 import com.rocdev.android.bakingtime.models.Step;
 
 public class StepsActivity extends AppCompatActivity implements
-        StepsOverviewAdapter.OnItemClickedListener {
+        StepsAdapter.OnItemClickedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +30,7 @@ public class StepsActivity extends AppCompatActivity implements
 
     @Override
     public void onStepClicked(Step step) {
-        Toast.makeText(this, "OnStepClicked triggered", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Step name is: " + step.getShortDescription(), Toast.LENGTH_SHORT).show();
 
     }
 

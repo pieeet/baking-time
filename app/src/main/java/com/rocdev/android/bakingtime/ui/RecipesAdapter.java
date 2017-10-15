@@ -17,15 +17,15 @@ import java.util.List;
  *
  */
 
-class RecipeNameAdapter extends RecyclerView.Adapter<RecipeNameAdapter.ViewHolder> {
+class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.ViewHolder> {
 
 
     private List<Recipe> mRecipes;
     private Context mContext;
     private OnRecipeClickedCallback mCallback;
 
-    RecipeNameAdapter(Context context, OnRecipeClickedCallback callback,
-                             List<Recipe> recipes) {
+    RecipesAdapter(Context context, OnRecipeClickedCallback callback,
+                   List<Recipe> recipes) {
         this.mContext = context;
         this.mCallback = callback;
         this.mRecipes = recipes;

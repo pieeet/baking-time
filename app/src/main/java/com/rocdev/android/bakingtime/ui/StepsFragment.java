@@ -57,14 +57,14 @@ public class StepsFragment extends Fragment  {
             Context context = getContext();
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
             stepsRecyclerView.setLayoutManager(layoutManager);
-            StepsOverviewAdapter.OnItemClickedListener callBack;
-            if (context instanceof StepsOverviewAdapter.OnItemClickedListener) {
-                callBack = (StepsOverviewAdapter.OnItemClickedListener) context;
+            StepsAdapter.OnItemClickedListener callBack;
+            if (context instanceof StepsAdapter.OnItemClickedListener) {
+                callBack = (StepsAdapter.OnItemClickedListener) context;
             } else {
                 throw new RuntimeException(context.toString() + " must implement " +
-                        "StepsOverviewAdapter.OnItemClickedListener");
+                        "StepsAdapter.OnItemClickedListener");
             }
-            StepsOverviewAdapter adapter = new StepsOverviewAdapter(context, callBack,
+            StepsAdapter adapter = new StepsAdapter(context, callBack,
                     mRecipe.getSteps());
             stepsRecyclerView.setAdapter(adapter);
         }
