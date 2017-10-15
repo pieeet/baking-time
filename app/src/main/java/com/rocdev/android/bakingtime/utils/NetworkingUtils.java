@@ -2,13 +2,7 @@ package com.rocdev.android.bakingtime.utils;
 
 import android.util.Log;
 
-import com.rocdev.android.bakingtime.models.Ingredient;
 import com.rocdev.android.bakingtime.models.Recipe;
-import com.rocdev.android.bakingtime.models.Step;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,7 +10,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -50,7 +43,6 @@ public class NetworkingUtils {
                 connection.disconnect();
             }
         }
-        Log.d(TAG, output.toString());
         return JsonUtils.extractRecipesFromJson(output.toString());
     }
 

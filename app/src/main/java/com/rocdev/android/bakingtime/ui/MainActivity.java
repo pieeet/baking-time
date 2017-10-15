@@ -18,9 +18,10 @@ import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity implements
-        LoaderManager.LoaderCallbacks<List<Recipe>> {
+        LoaderManager.LoaderCallbacks<List<Recipe>>, RecipeNameAdapter.OnRecipeClickedCallback {
 
     private List<Recipe> mRecipes;
+    private RecipeNameAdapter mAdapter;
     private static final int LOADER_ID = 1234;
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -31,7 +32,11 @@ public class MainActivity extends AppCompatActivity implements
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recipeList);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
         getLoaderManager().initLoader(LOADER_ID, null, this);
+        mAdapter = new RecipeNameAdapter(this, this, mRecipes);
+        recyclerView.setAdapter(mAdapter);
+
     }
 
     @Override
@@ -64,8 +69,8 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onLoadFinished(Loader<List<Recipe>> loader, List<Recipe> recipes) {
         //TODO write test
-        Log.d(TAG, "No of recipes: " + recipes.size());
         mRecipes = recipes;
+        mAdapter.swapRecipes(recipes);
     }
 
     @Override
@@ -73,4 +78,8 @@ public class MainActivity extends AppCompatActivity implements
 
     }
 
+    @Override
+    public void onRecipeClicked(Recipe recipe) {
+        //TODO create intent to recipe activity
+    }
 }
