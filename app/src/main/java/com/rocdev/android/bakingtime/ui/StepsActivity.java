@@ -12,26 +12,44 @@ import com.rocdev.android.bakingtime.models.Step;
 public class StepsActivity extends AppCompatActivity implements
         StepsAdapter.OnItemClickedListener {
 
+    private Recipe mRecipe;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_steps);
-        Intent intent = getIntent();
-        Recipe recipe = intent.getParcelableExtra(getString(R.string.key_recipe));
-        StepsFragment fragment = StepsFragment.newInstance(recipe);
+        mRecipe = getIntent().getParcelableExtra(getString(R.string.key_recipe));
+        initNavigation();
+        initfragments();
+    }
+
+    private void initfragments() {
+        StepsFragment fragment = StepsFragment.newInstance(mRecipe);
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.steps_fragment_container, fragment)
                 .commit();
+    }
+
+    private void initNavigation() {
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(recipe.getName());
+            getSupportActionBar().setTitle(mRecipe.getName());
         }
     }
 
     @Override
     public void onStepClicked(Step step) {
-        Toast.makeText(this, "Step name is: " + step.getShortDescription(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, StepDetailActivity.class);
+        intent.putExtra(getString(R.string.key_recipe), mRecipe);
+        intent.putExtra(getString(R.string.key_step_position), getStepPosition(step));
+        startActivity(intent);
+    }
 
+    private int getStepPosition(Step step) {
+        for (int i = 0; i < mRecipe.getSteps().size(); i++) {
+            if (step.getId() == mRecipe.getSteps().get(i).getId() ) return i;
+        }
+        return 0;
     }
 
     @Override

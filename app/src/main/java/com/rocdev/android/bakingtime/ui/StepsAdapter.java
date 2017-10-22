@@ -14,9 +14,10 @@ import java.util.List;
 
 /**
  * Created by piet on 15-10-17.
+ *
  */
 
-public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> {
+class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> {
 
 
     private Context mContext;
@@ -24,7 +25,7 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> 
     private List<Step> mSteps;
 
 
-    public StepsAdapter(Context context, OnItemClickedListener callback,
+    StepsAdapter(Context context, OnItemClickedListener callback,
                         List<Step> steps) {
         this.mContext = context;
         this.mCallback = callback;
@@ -64,7 +65,7 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> 
     @Override
     public int getItemCount() {
         if (mSteps == null) return 0;
-        return mSteps.size();
+        return mSteps.size() + 1;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -72,7 +73,7 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> 
         View container;
         TextView textView;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             container = itemView.findViewById(R.id.fl_step_container);
             textView = itemView.findViewById(R.id.tv_step_description);
