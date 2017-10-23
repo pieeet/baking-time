@@ -8,4 +8,11 @@
     <string name="button_previous">Previous</string>
     <string name="button_next">Next</string>
     <string name="key_step_position">stepId</string>
+    <string name="cups">cups</string>
+    <string name="tablespoon">tablespoons</string>
+    <string name="teaspoon">teaspoons</string>
+    <string name="kilogram">kilograms</string>
+    <string name="gram">grams</string>
+    <string name="ounce">ounces</string>
+    <string name="unit">units</string>
 </resources>

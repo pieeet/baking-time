@@ -54,6 +54,8 @@ public class StepsActivity extends AppCompatActivity implements
 
     @Override
     public void onIngredientsClicked() {
-        Toast.makeText(this, "OnIngredientsClicked triggered", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, IngredientsActivity.class);
+        intent.putExtra(getString(R.string.key_recipe), mRecipe);
+        startActivity(intent);
     }
 }

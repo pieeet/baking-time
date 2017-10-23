@@ -1,7 +1,10 @@
 package com.rocdev.android.bakingtime.models;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.rocdev.android.bakingtime.R;
 
 /**
  * Created by piet on 14-10-17.
@@ -30,6 +33,29 @@ public class Ingredient implements Parcelable {
 
     public double getQuantity() {
         return quantity;
+    }
+    
+    
+    
+    public static String getNormalMeasure(Context context, String measure) {
+        switch (measure) {
+            case "CUP":
+                return context.getString(R.string.cups);
+            case "TBLSP":
+                return context.getString(R.string.tablespoon);
+            case "TSP":
+                return context.getString(R.string.teaspoon);
+            case "K":
+                return context.getString(R.string.kilogram);
+            case "G":
+                return context.getString(R.string.gram);
+            case "OZ":
+                return context.getString(R.string.ounce);
+            case "UNIT":
+                return context.getString(R.string.unit);
+            default:
+                return "";
+        }
     }
 
     protected Ingredient(Parcel in) {

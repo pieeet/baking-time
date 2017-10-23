@@ -17,25 +17,34 @@
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".ui.StepsActivity"
-            android:parentActivityName=".ui.MainActivity"
             android:launchMode="singleTop"
+            android:parentActivityName=".ui.MainActivity"
             tools:targetApi="jelly_bean">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.MainActivity" />
         </activity>
-        <activity android:name=".ui.StepDetailActivity"
+        <activity
+            android:name=".ui.StepDetailActivity"
             android:parentActivityName=".ui.StepsActivity"
             tools:targetApi="jelly_bean">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.StepsActivity" />
-
+        </activity>
+        <activity
+            android:name=".ui.IngredientsActivity"
+            android:parentActivityName=".ui.StepsActivity"
+            tools:targetApi="jelly_bean">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.StepsActivity" />
         </activity>
     </application>
 
