@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -31,11 +32,12 @@ public class MainActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_main);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recipeList);
         recyclerView.setHasFixedSize(true);
-        boolean isTabletLand = false;
-
-
-
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager layoutManager;
+        if (getResources().getBoolean(R.bool.tablet_land)) {
+            layoutManager = new GridLayoutManager(this, 3);
+        } else {
+            layoutManager = new LinearLayoutManager(this);
+        }
         recyclerView.setLayoutManager(layoutManager);
         getLoaderManager().initLoader(LOADER_ID, null, this);
         mAdapter = new RecipesAdapter(this, this, mRecipes);
