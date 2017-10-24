@@ -1,6 +1,7 @@
 package com.rocdev.android.bakingtime.ui;
 
 import android.content.Intent;
+import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -20,11 +21,24 @@ public class StepDetailActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_step_detail);
-        Intent intent = getIntent();
-        mRecipe = intent.getParcelableExtra(getString(R.string.key_recipe));
-        mStepPosition = intent.getIntExtra(getString(R.string.key_step_position), 0);
+        if (savedInstanceState == null) {
+            Intent intent = getIntent();
+            mRecipe = intent.getParcelableExtra(getString(R.string.key_recipe));
+            mStepPosition = intent.getIntExtra(getString(R.string.key_step_position), 0);
+        } else {
+            mRecipe = savedInstanceState.getParcelable(getString(R.string.key_recipe));
+            mStepPosition = savedInstanceState.getInt(getString(R.string.key_step_position));
+        }
         setActionBarTitle();
         setFragment();
+    }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(getString(R.string.key_recipe), mRecipe);
+        outState.putInt(getString(R.string.key_step_position), mStepPosition);
     }
 
     private void setFragment() {

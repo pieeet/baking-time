@@ -31,6 +31,10 @@ public class MainActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_main);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recipeList);
         recyclerView.setHasFixedSize(true);
+        boolean isTabletLand = false;
+
+
+
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         getLoaderManager().initLoader(LOADER_ID, null, this);

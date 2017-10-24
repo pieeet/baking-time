@@ -1,5 +1,6 @@
 package com.rocdev.android.bakingtime.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -88,8 +89,12 @@ public class StepDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_step_detail, container, false);
         playerView = rootView.findViewById(R.id.video_view);
         TextView tvInstruction = rootView.findViewById(R.id.tv_instruction);
-        tvInstruction.setText(getCleanedUpInstruction());
-        initButtons(rootView);
+        if (tvInstruction != null) {
+            tvInstruction.setText(getCleanedUpInstruction());
+            initButtons(rootView);
+        } else {
+            hideSystemUi();
+        }
         return rootView;
     }
 
@@ -132,6 +137,16 @@ public class StepDetailFragment extends Fragment {
             description = description.replaceAll("\uFFFD", "\u00b0");
         }
         return description;
+    }
+
+    @SuppressLint("InlinedApi")
+    private void hideSystemUi() {
+        playerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
     }
 
 
