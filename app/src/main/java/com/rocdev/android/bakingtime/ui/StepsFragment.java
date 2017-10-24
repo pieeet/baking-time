@@ -67,6 +67,7 @@ public class StepsFragment extends Fragment  {
             StepsAdapter adapter = new StepsAdapter(context, callBack,
                     mRecipe.getSteps());
             stepsRecyclerView.setAdapter(adapter);
+
         }
         return rootView;
     }

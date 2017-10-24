@@ -89,27 +89,34 @@ public class StepDetailFragment extends Fragment {
         playerView = rootView.findViewById(R.id.video_view);
         TextView tvInstruction = rootView.findViewById(R.id.tv_instruction);
         tvInstruction.setText(getCleanedUpInstruction());
-        Button previousButton = rootView.findViewById(R.id.button_previous_step);
-        if (mStepPosition == 0) {
-            previousButton.setEnabled(false);
-        }
-        previousButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mListener.onPreviousClicked();
-            }
-        });
-        Button nextButton = rootView.findViewById(R.id.button_next_step);
-        if (mStepPosition == mRecipe.getSteps().size() - 1) {
-            nextButton.setEnabled(false);
-        }
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mListener.onNextClicked();
-            }
-        });
+        initButtons(rootView);
         return rootView;
+    }
+
+    private void initButtons(View rootView) {
+        Button previousButton = rootView.findViewById(R.id.button_previous_step);
+        //On tablet landscape buttons are null
+        if (previousButton != null) {
+            if (mStepPosition == 0) {
+                previousButton.setEnabled(false);
+            }
+            previousButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mListener.onPreviousClicked();
+                }
+            });
+            Button nextButton = rootView.findViewById(R.id.button_next_step);
+            if (mStepPosition == mRecipe.getSteps().size() - 1) {
+                nextButton.setEnabled(false);
+            }
+            nextButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mListener.onNextClicked();
+                }
+            });
+        }
     }
 
     private String getCleanedUpInstruction() {

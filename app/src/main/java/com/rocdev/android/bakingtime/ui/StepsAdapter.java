@@ -1,6 +1,8 @@
 package com.rocdev.android.bakingtime.ui;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +16,6 @@ import java.util.List;
 
 /**
  * Created by piet on 15-10-17.
- *
  */
 
 class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> {
@@ -23,13 +24,15 @@ class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> {
     private Context mContext;
     private OnItemClickedListener mCallback;
     private List<Step> mSteps;
+    private int selectedPosition;
 
 
     StepsAdapter(Context context, OnItemClickedListener callback,
-                        List<Step> steps) {
+                 List<Step> steps) {
         this.mContext = context;
         this.mCallback = callback;
         this.mSteps = steps;
+        selectedPosition = -1;
     }
 
     @Override
@@ -40,13 +43,21 @@ class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+        if (selectedPosition == position) {
+            holder.textView.setTextColor(ContextCompat.getColor(mContext, R.color.colorSelected));
+        } else {
+            holder.textView.setTextColor(ContextCompat.getColor(mContext, R.color.colorAccent));
+        }
         if (position == 0) {
             holder.textView.setText(R.string.ingredients);
             holder.container.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     mCallback.onIngredientsClicked();
+                    selectedPosition = holder.getAdapterPosition();
+                    notifyDataSetChanged();
+
                 }
             });
         } else {
@@ -56,9 +67,16 @@ class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> {
                 @Override
                 public void onClick(View view) {
                     mCallback.onStepClicked(step);
+                    selectedPosition = holder.getAdapterPosition();
+                    notifyDataSetChanged();
                 }
             });
         }
+    }
+
+    public void setPosition(int position) {
+        selectedPosition = position;
+        notifyDataSetChanged();
     }
 
 
@@ -82,6 +100,7 @@ class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> {
 
     interface OnItemClickedListener {
         void onStepClicked(Step step);
+
         void onIngredientsClicked();
     }
 }
