@@ -1,7 +1,6 @@
 package com.rocdev.android.bakingtime.ui;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,6 +15,7 @@ import java.util.List;
 
 /**
  * Created by piet on 15-10-17.
+ *
  */
 
 class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> {
@@ -72,11 +72,6 @@ class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> {
                 }
             });
         }
-    }
-
-    public void setPosition(int position) {
-        selectedPosition = position;
-        notifyDataSetChanged();
     }
 
 

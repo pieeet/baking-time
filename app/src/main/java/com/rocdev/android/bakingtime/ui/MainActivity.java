@@ -17,14 +17,17 @@ import com.rocdev.android.bakingtime.utils.NetworkingUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+
 
 public class MainActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<List<Recipe>>, RecipesAdapter.OnRecipeClickedCallback {
 
-    private List<Recipe> mRecipes;
-    private RecipesAdapter mAdapter;
     private static final int LOADER_ID = 1234;
     private static final String TAG = MainActivity.class.getSimpleName();
+
+    private List<Recipe> mRecipes;
+    private RecipesAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
