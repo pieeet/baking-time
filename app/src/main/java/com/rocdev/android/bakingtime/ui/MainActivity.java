@@ -2,15 +2,21 @@ package com.rocdev.android.bakingtime.ui;
 
 import android.app.LoaderManager;
 import android.content.AsyncTaskLoader;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.Loader;
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.rocdev.android.bakingtime.R;
+import com.rocdev.android.bakingtime.database.RecipeColumns;
+import com.rocdev.android.bakingtime.database.RecipesProvider;
 import com.rocdev.android.bakingtime.models.Recipe;
 import com.rocdev.android.bakingtime.utils.NetworkingUtils;
 
@@ -18,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+
+import static android.R.attr.data;
 
 
 public class MainActivity extends AppCompatActivity implements
@@ -64,7 +72,25 @@ public class MainActivity extends AppCompatActivity implements
 
             @Override
             public List<Recipe> loadInBackground() {
-                return NetworkingUtils.fetchRecipes();
+                List<Recipe> recipes = NetworkingUtils.fetchRecipes();
+                if (recipes != null) {
+                    ContentValues[] cvs = new ContentValues[recipes.size()];
+                    for (int i = 0; i < recipes.size(); i++) {
+                        Recipe recipe = recipes.get(i);
+                        ContentValues cv = new ContentValues();
+                        cv.put(RecipeColumns.RECIPE_ID, recipe.getId());
+                        cv.put(RecipeColumns.NAME, recipe.getName());
+                        cv.put(RecipeColumns.IMAGE_URL, recipe.getImage());
+                        cv.put(RecipeColumns.SERVINGS, recipe.getServings());
+                        cvs[i] = cv;
+                    }
+                    ContentResolver cr = getContentResolver();
+                    int rowsDeleted = cr.delete(RecipesProvider.Recipes.CONTENT_URI, null, null);
+                    int rows = cr.bulkInsert(RecipesProvider.Recipes.CONTENT_URI, cvs);
+                    Log.d(TAG, "no of rows deleted: " + rowsDeleted);
+                    Log.d(TAG, "no of rows added: " + rows);
+                }
+                return recipes;
             }
 
             @Override
@@ -78,6 +104,13 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onLoadFinished(Loader<List<Recipe>> loader, List<Recipe> recipes) {
         //TODO write test
+        Cursor cursor = getContentResolver()
+                .query(RecipesProvider.Recipes.CONTENT_URI, null, null, null, null);
+        if (cursor != null) {
+            Log.d(TAG, "No of rows retrieved " + cursor.getCount());
+            cursor.close();
+        }
+
         mRecipes = recipes;
         mAdapter.swapRecipes(recipes);
     }

@@ -15,4 +15,6 @@
     <string name="gram">grams</string>
     <string name="ounce">ounces</string>
     <string name="unit">units</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 </resources>
