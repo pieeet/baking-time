@@ -111,6 +111,10 @@ public class MainActivity extends AppCompatActivity implements
                 .query(RecipesProvider.Recipes.CONTENT_URI, null, null, null, null);
         if (cursor != null) {
             Log.d(TAG, "No of rows retrieved " + cursor.getCount());
+            //check if names are properly stored
+            while (cursor.moveToNext()) {
+                Log.d(TAG, cursor.getString(cursor.getColumnIndex(RecipeColumns.NAME)));
+            }
             cursor.close();
 
         }
