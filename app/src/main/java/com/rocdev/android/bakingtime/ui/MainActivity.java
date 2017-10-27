@@ -1,7 +1,9 @@
 package com.rocdev.android.bakingtime.ui;
 
 import android.app.LoaderManager;
+import android.appwidget.AppWidgetManager;
 import android.content.AsyncTaskLoader;
+import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -14,6 +16,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
+import com.rocdev.android.bakingtime.BakingTimeWidget;
 import com.rocdev.android.bakingtime.R;
 import com.rocdev.android.bakingtime.database.RecipeColumns;
 import com.rocdev.android.bakingtime.database.RecipesProvider;
@@ -109,10 +112,18 @@ public class MainActivity extends AppCompatActivity implements
         if (cursor != null) {
             Log.d(TAG, "No of rows retrieved " + cursor.getCount());
             cursor.close();
+
         }
 
         mRecipes = recipes;
         mAdapter.swapRecipes(recipes);
+        //notify widgets
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, BakingTimeWidget.class));
+        //Trigger data update to handle the GridView widgets and force a data refresh
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_grid_view);
+        //Now update all widgets
+        BakingTimeWidget.updateRecipeWidgets(this, appWidgetManager, appWidgetIds);
     }
 
     @Override
