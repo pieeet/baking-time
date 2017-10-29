@@ -10,9 +10,11 @@ import net.simonvt.schematic.annotation.Table;
  */
 
 @Database(version = RecipesDatabase.VERSION)
-public class RecipesDatabase {
+public final class RecipesDatabase {
 
     public static final int VERSION = 1;
 
     @Table(RecipeColumns.class) public static final String RECIPES = "recipes";
+    @Table(StepColumns.class) public static final String STEPS = "steps";
+    @Table(IngredientColumns.class) public static final String INGREDIENTS = "ingredients";
 }

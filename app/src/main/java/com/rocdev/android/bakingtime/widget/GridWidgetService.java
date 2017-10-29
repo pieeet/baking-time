@@ -1,4 +1,4 @@
-package com.rocdev.android.bakingtime;
+package com.rocdev.android.bakingtime.widget;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
+import com.rocdev.android.bakingtime.R;
 import com.rocdev.android.bakingtime.database.RecipeColumns;
 import com.rocdev.android.bakingtime.database.RecipesProvider;
 

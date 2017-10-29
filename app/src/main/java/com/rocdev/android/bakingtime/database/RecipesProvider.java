@@ -26,4 +26,20 @@ public final class RecipesProvider {
 
     }
 
+    @TableEndpoint(table = RecipesDatabase.STEPS) public static class Steps {
+        @ContentUri(
+                path = "steps",
+                type = "vnd.android.cursor.dir/steps")
+        public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/steps");
+
+    }
+
+    @TableEndpoint(table = RecipesDatabase.INGREDIENTS) public static class Ingredients {
+        @ContentUri(
+                path = "ingredients",
+                type = "vnd.android.cursor.dir/ingredients")
+        public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/ingredients");
+
+    }
+
 }

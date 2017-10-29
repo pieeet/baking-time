@@ -16,7 +16,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import com.rocdev.android.bakingtime.BakingTimeWidget;
+import com.rocdev.android.bakingtime.widget.BakingTimeWidget;
 import com.rocdev.android.bakingtime.R;
 import com.rocdev.android.bakingtime.database.RecipeColumns;
 import com.rocdev.android.bakingtime.database.RecipesProvider;
@@ -25,10 +25,6 @@ import com.rocdev.android.bakingtime.utils.NetworkingUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-
-import static android.R.attr.data;
 
 
 public class MainActivity extends AppCompatActivity implements
