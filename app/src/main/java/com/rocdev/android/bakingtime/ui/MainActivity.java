@@ -2,13 +2,14 @@ package com.rocdev.android.bakingtime.ui;
 
 import android.app.LoaderManager;
 import android.appwidget.AppWidgetManager;
-import android.content.AsyncTaskLoader;
 import android.content.ComponentName;
-import android.content.ContentResolver;
-import android.content.ContentValues;
+
+import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -16,6 +17,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
+import com.rocdev.android.bakingtime.database.DbUtils;
+import com.rocdev.android.bakingtime.loaders.RecipesDbLoader;
+import com.rocdev.android.bakingtime.loaders.RecipesHttpLoader;
 import com.rocdev.android.bakingtime.widget.BakingTimeWidget;
 import com.rocdev.android.bakingtime.R;
 import com.rocdev.android.bakingtime.database.RecipeColumns;
@@ -57,47 +61,11 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public Loader<List<Recipe>> onCreateLoader(int id, Bundle args) {
-        return new AsyncTaskLoader<List<Recipe>>(this) {
-            ArrayList<Recipe> recipes;
-
-            @Override
-            protected void onStartLoading() {
-                if (recipes == null) {
-                    forceLoad();
-                } else {
-                    deliverResult(recipes);
-                }
-            }
-
-            @Override
-            public List<Recipe> loadInBackground() {
-                List<Recipe> recipes = NetworkingUtils.fetchRecipes();
-                if (recipes != null) {
-                    ContentValues[] cvs = new ContentValues[recipes.size()];
-                    for (int i = 0; i < recipes.size(); i++) {
-                        Recipe recipe = recipes.get(i);
-                        ContentValues cv = new ContentValues();
-                        cv.put(RecipeColumns.RECIPE_ID, recipe.getId());
-                        cv.put(RecipeColumns.NAME, recipe.getName());
-                        cv.put(RecipeColumns.IMAGE_URL, recipe.getImage());
-                        cv.put(RecipeColumns.SERVINGS, recipe.getServings());
-                        cvs[i] = cv;
-                    }
-                    ContentResolver cr = getContentResolver();
-                    int rowsDeleted = cr.delete(RecipesProvider.Recipes.CONTENT_URI, null, null);
-                    int rows = cr.bulkInsert(RecipesProvider.Recipes.CONTENT_URI, cvs);
-                    Log.d(TAG, "no of rows deleted: " + rowsDeleted);
-                    Log.d(TAG, "no of rows added: " + rows);
-                }
-                return recipes;
-            }
-
-            @Override
-            public void deliverResult(List<Recipe> data) {
-                recipes = (ArrayList<Recipe>) data;
-                super.deliverResult(data);
-            }
-        };
+        if (hasConnection()) {
+            return new RecipesHttpLoader(this);
+        } else {
+            return new RecipesDbLoader(this);
+        }
     }
 
     @Override
@@ -114,7 +82,6 @@ public class MainActivity extends AppCompatActivity implements
             cursor.close();
 
         }
-
         mRecipes = recipes;
         mAdapter.swapRecipes(recipes);
         //notify widgets
@@ -129,6 +96,15 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onLoaderReset(Loader<List<Recipe>> loader) {
 
+    }
+
+    private boolean hasConnection() {
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = null;
+        if (connMgr != null) {
+            networkInfo = connMgr.getActiveNetworkInfo();
+        }
+        return networkInfo != null && networkInfo.isConnected();
     }
 
     @Override
